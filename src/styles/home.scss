@@ -1,0 +1,23 @@
+.pagination-button {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.review-list {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-gap: 2%;
+    margin-left: 5%;
+    margin-right: 5%;
+    @media only screen and (max-width: 767px) {
+        display: block;
+    }
+}
+
+.review-card {
+    border-style: solid;
+    border-color: black;
+    border-width: 2px;
+    margin-bottom: 2%;
+    padding: 2%;
+}
