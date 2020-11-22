@@ -10,9 +10,9 @@ export default function SignUp() {
     const onSubmit = async (data) => {
         try {
             const user = await signUp(data);
-            if (user.status === 201) {
-                localStorage.setItem('account', JSON.stringify(user.data));
-                history.push('/');
+            if (user.status === 200) {
+                alert(`${user.data.message}`)
+                history.push('/login');
             }
         } catch(err) {
             console.log(err);

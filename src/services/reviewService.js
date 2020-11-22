@@ -10,11 +10,17 @@ const processReview = (data, reviewerID, reviewerName) => {
 }
 
 export const postReview = async (data) => {
+    const accessToken = JSON.parse(localStorage.getItem('account')).accessToken;
+    const reviewerID = JSON.parse(localStorage.getItem('account')).id;
+    const reviewerName = JSON.parse(localStorage.getItem('account')).username;
+    data = processReview(data, reviewerID, reviewerName);
+    const config = {
+        headers: {
+            "x-access-token": accessToken
+        }
+    }
     try {
-        const reviewerID = JSON.parse(localStorage.getItem('account')).id;
-        const reviewerName = JSON.parse(localStorage.getItem('account')).username;
-        data = processReview(data, reviewerID, reviewerName);
-        let response = await axios.post('/review', data);
+        let response = await axios.post('/review', data, config);
         return response;
     } catch(err) {
         console.log(err);

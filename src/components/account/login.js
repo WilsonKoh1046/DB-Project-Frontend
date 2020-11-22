@@ -28,7 +28,7 @@ export default function Login() {
     const onSubmit = async (data) => {
         try {
             const user = await signIn(data);
-            if (user.status === 201) {
+            if (user.status === 200) {
                 localStorage.setItem('account', JSON.stringify(user.data));
                 history.push('/');
             }
