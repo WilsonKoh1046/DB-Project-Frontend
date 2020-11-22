@@ -1,6 +1,12 @@
 .pagination-button {
-    margin-left: auto;
-    margin-right: auto;
+    margin-left: 40%;
+    margin-top: 2%;
+    @media only screen and (max-width: 767px) {
+        margin-left: auto;
+        margin-right: auto;
+        padding-left: 20%;
+        padding-right: 20%;
+    }
 }
 
 .review-list {
@@ -9,15 +15,21 @@
     grid-gap: 2%;
     margin-left: 5%;
     margin-right: 5%;
+    margin-bottom: 5%;
     @media only screen and (max-width: 767px) {
         display: block;
     }
 }
 
-.review-card {
+.review-card, .book {
     border-style: solid;
     border-color: black;
     border-width: 2px;
     margin-bottom: 2%;
     padding: 2%;
+    background-color: white;
+    .book-details {
+        text-decoration: none;
+        color: black;
+    }
 }

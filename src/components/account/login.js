@@ -56,11 +56,13 @@ export default function Login() {
                                     <br/>
                                     <input name="username" ref={register} />
                                 </div>
+                                {/*
                                 <div className="form-group">
                                     <label>Email:</label>
                                     <br/>
                                     <input name="email" ref={register} />
                                 </div>
+                                */}
                                 <div className="form-group">
                                     <label>Password:</label>
                                     <br/>

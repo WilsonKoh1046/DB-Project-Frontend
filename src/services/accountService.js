@@ -2,7 +2,7 @@ import axios from 'axios';
 
 export const signIn = async (data) => {
         try {
-            let attempt = await axios.post("/login", data);
+            let attempt = await axios.post("/api/auth/signin", data);
             return attempt;
         } catch(err) {
             console.log(err);
@@ -11,7 +11,7 @@ export const signIn = async (data) => {
 
 export const signUp = async (data) => {
     try {
-        let attempt = await axios.post("/sign-up", data);
+        let attempt = await axios.post("/api/auth/signup", data);
         return attempt;
     } catch(err) {
         console.log(err);
