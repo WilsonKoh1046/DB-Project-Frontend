@@ -28,10 +28,10 @@ export default function Book({detail}) {
             <p>
                 {detail.asin}
             </p>
-            <p>{detail.price}</p>
-            <p>{detail.brand}</p>
+            <p>Price: {detail.price} SGD</p>
+            <p>Brand: {detail.brand}</p>
             <p>
-                {detail.description}
+                Description: {detail.description}
             </p>
             </Link>
         </div>

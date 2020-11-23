@@ -2,7 +2,7 @@
     font-family: Arial, FontAwesome;
 }
 
-.search-bar {
+.search-bar, .submit-key {
     float: right;
     @media only screen and (max-width: 767px) {
         visibility: hidden;

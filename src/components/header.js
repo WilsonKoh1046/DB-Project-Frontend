@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { Link, useHistory } from 'react-router-dom'
 import { useForm } from 'react-hook-form';
 import { logout } from '../services/accountService';
+import { findBookByAsin } from '../services/bookService';
 import '../styles/header.scss';
 
 export default function Header() {
@@ -26,7 +27,20 @@ export default function Header() {
         }
     }
 
-    const searchBook = () => {}
+    const searchBook = async (data) => {
+        try {
+            const response = await findBookByAsin(data.search);
+            if (response.status === 200) {
+                if (Object.keys(response.data).length === 0) {
+                    history.push({pathname: "/search-result", state: { found: false }});
+                } else {
+                    history.push({pathname: "/search-result", state: { detail: response.data, found: true }});
+                }
+            }
+        } catch(err) {
+            console.log(err);
+        }
+    }
 
     return (
         <div className="container-fluid header-area">
@@ -55,7 +69,10 @@ export default function Header() {
                     }
                 </ul>
             </nav>
-            <input name="search" ref={register} placeholder="&#xf002; Book's ASIN" className="fontAwesome search-bar" />
+            <form onSubmit={handleSubmit(searchBook)}>
+                <input name="search" ref={register} onSubmit={handleSubmit(searchBook)} placeholder="&#xf002; Book's ASIN" className="fontAwesome search-bar" />
+                <input type="submit" style={{visibility: "hidden"}} className="submit-key" />
+            </form>
         </div>
     )
 }

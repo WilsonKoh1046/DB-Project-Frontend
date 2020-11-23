@@ -5,6 +5,7 @@ import NewReview from './review/newReview';
 import Login from './account/login';
 import SignUp from './account/signUp';
 import Reviews from './reviews';
+import SearchResult from './searchResult';
 
 export default function Main() {
     return (
@@ -15,6 +16,7 @@ export default function Main() {
                 <Route path="/login" component={Login} />
                 <Route path="/sign-up" component={SignUp} />
                 <Route path="/reviews" component={Reviews} />
+                <Route path="/search-result" component={SearchResult} />
             </Switch>
         </main>
     )
