@@ -14,7 +14,7 @@ export default function NewBook() {
         }
     }, [])
 
-    const submitReview = async (data) => {
+    const submitBook = async (data) => {
         try {
             let response = await createNewBook(data);
             if (response.status === 200) {
@@ -32,7 +32,7 @@ export default function NewBook() {
         <div className="container">
             <h2>New Book</h2>
             { loggedIn ?
-                        <form onSubmit={handleSubmit(submitReview)}>
+                        <form onSubmit={handleSubmit(submitBook)}>
                             <div className="form-group">
                                 <lablel>asin:</lablel>
                                 <br/>
