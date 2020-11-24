@@ -4,10 +4,6 @@ import '../styles/home.scss';
 
 export default function reviewCard({detail}) {
 
-    const showDetails = (detail, id) => {
-        window.location = `/${id}`;
-    }
-
     const truncateText = (text) => {
         if (text.length > 100) {
             return text.substring(0, 101) + '...';
@@ -27,11 +23,11 @@ export default function reviewCard({detail}) {
     }
 
     let truncatedText = truncateText(detail.reviewText);
-    let formatedHelpful = helpfulFormat(detail.helpful);
-    let formatedDate = dateFormat(detail.reviewTime);
+    // let formatedHelpful = helpfulFormat(detail.helpful);
+    // let formatedDate = dateFormat(detail.reviewTime);
     detail.reviewText = truncatedText;
-    detail.helpful = formatedHelpful;
-    detail.reviewTime = formatedDate;
+    // detail.helpful = formatedHelpful;
+    // detail.reviewTime = formatedDate;
 
     return (
         <div className="review-card">
@@ -47,10 +43,12 @@ export default function reviewCard({detail}) {
             <p>
                 Helpful: {detail.helpful}
             </p>
+            {/*
             <p>
                 Reviewed Date: {detail.reviewTime}
             </p>
-            {/* <p>{detail.unixReviewTime}</p> */}
+            <p>{detail.unixReviewTime}</p> 
+            */}
         </div>
     )
 }

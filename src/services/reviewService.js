@@ -3,9 +3,9 @@ import axios from 'axios';
 const processReview = (data, reviewerID, reviewerName) => {
     data.reviewerID = reviewerID;
     data.reviewerName = reviewerName;
-    data.unixReviewTime = new Date().getTime();
-    let currentDate = new Date();
-    data.reviewTime = `${currentDate.getMonth() + 1} ${currentDate.getDate()}, ${currentDate.getFullYear()}`;
+    // data.unixReviewTime = new Date().getTime();
+    // let currentDate = new Date();
+    // data.reviewTime = `${currentDate.getMonth() + 1} ${currentDate.getDate()}, ${currentDate.getFullYear()}`;
     return data;
 }
 
@@ -20,7 +20,7 @@ export const postReview = async (data) => {
         }
     }
     try {
-        let response = await axios.post('/review', data, config);
+        let response = await axios.post('/api/reviews', data, config);
         return response;
     } catch(err) {
         console.log(err);
