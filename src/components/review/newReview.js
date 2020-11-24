@@ -65,7 +65,7 @@ export default function NewReview() {
                             <div className="form-group">
                                 <label>Summary:</label>
                                 <br/>
-                                <input name="summary" ref={register} />
+                                <textarea name="summary" ref={register} />
                             </div>
                             <input type="submit" className="btn btn-primary" />
                         </form>

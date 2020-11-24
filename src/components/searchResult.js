@@ -1,5 +1,5 @@
 import React from 'react';
-import Book from './book';
+import Book from './book/book';
 
 export default function SearchResult(props) {
     return (

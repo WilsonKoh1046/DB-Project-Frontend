@@ -9,6 +9,15 @@ export const createNewBook = async (data) => {
     }
 }
 
+export const getAllBooks = async () => {
+    try {
+         const response = await axios.get("/api/books");
+         return response;
+    } catch(err) {
+        console.log(err);
+    }
+}
+
 export const findBookByAsin = async (asin) => {
     try {
         const response = await axios.get(`/api/books/${asin}`);

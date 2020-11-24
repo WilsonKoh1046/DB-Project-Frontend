@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import Pagination from 'react-js-pagination';
-import axios from 'axios';
-import Book from './book';
-// import ReviewCard from './reviewCard';
+import Book from './book/book';
+import { getAllBooks } from '../services/bookService';
 import '../styles/home.scss';
 
 export default function Home() {
@@ -16,7 +15,7 @@ export default function Home() {
     useEffect(() => {
         (async () => {
             try {
-                const response = await axios.get('/api/books');
+                const response = await getAllBooks();
                 if (response.status === 200) {
                     setBooks(response.data);
                 }

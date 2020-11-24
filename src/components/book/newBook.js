@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { useHistory } from 'react-router-dom';
-import { createNewBook } from '../services/bookService';
+import { createNewBook } from '../../services/bookService';
 
 export default function NewBook() {
     const { register, handleSubmit, errors } = useForm();
@@ -73,7 +73,7 @@ export default function NewBook() {
                             <div className="form-group">
                                 <label>Description:</label>
                                 <br/>
-                                <input name="description" ref={register({ required: {value: true, message: "Must input brief description of the book"}})} />
+                                <textarea name="description" ref={register({ required: {value: true, message: "Must input brief description of the book"}})} />
                                 {errors.description && errors.description.type === "required" && (
                                     <div className="error text-danger">{errors.description.message}</div>
                                 )}

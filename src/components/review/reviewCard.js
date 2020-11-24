@@ -1,15 +1,8 @@
 import React from 'react';
-import '../styles/home.scss';
+import '../../styles/home.scss';
 
 export default function reviewCard({detail}) {
-
-    const truncateText = (text) => {
-        if (text.length > 100) {
-            return text.substring(0, 101) + '...';
-        }
-        return text;
-    }
-
+    /*
     const helpfulFormat = (helpful) => {
         return helpful[0] + '/' + helpful[helpful.length - 1];
     }
@@ -21,21 +14,19 @@ export default function reviewCard({detail}) {
         return date;
     }
 
-    let truncatedText = truncateText(detail.reviewText);
-    // let formatedHelpful = helpfulFormat(detail.helpful);
-    // let formatedDate = dateFormat(detail.reviewTime);
-    detail.reviewText = truncatedText;
-    // detail.helpful = formatedHelpful;
-    // detail.reviewTime = formatedDate;
+    let formatedHelpful = helpfulFormat(detail.helpful);
+    let formatedDate = dateFormat(detail.reviewTime);
+    detail.helpful = formatedHelpful;
+    detail.reviewTime = formatedDate;
+    */
 
     return (
         <div className="review-card">
-            <h3>{detail.asin}</h3>
+            <h3>{detail.reviewerName} </h3>
             <p>
                 Overall Score: {detail.overall}
             </p>
-            <p>{detail.reviewerName}: </p>
-            <p>{detail.reviewText}</p>
+            <p><i>"{detail.reviewText}"</i></p>
             <p>
                 Summary: {detail.summary}
             </p>

@@ -1,11 +1,11 @@
 import React from 'react'
 import { Switch, Route } from 'react-router-dom'
 import Home from './home';
-import NewBook from './newBook';
+import NewBook from './book/newBook';
 import NewReview from './review/newReview';
 import Login from './account/login';
 import SignUp from './account/signUp';
-import Reviews from './reviews';
+import Reviews from './review/reviews';
 import SearchResult from './searchResult';
 
 export default function Main() {

@@ -22,8 +22,8 @@ export default function Header() {
     const signOut = () => {
         if (logout()) {
             setLoggedIn(false);
-            history.go(0);
             history.push('/');
+            history.go(0);
         }
     }
 
@@ -63,15 +63,13 @@ export default function Header() {
                     <li className="nav-item">
                         <Link to="/login" className="nav-link"><i className="fa far">&#xf007;</i> {user}</Link>
                     </li>
-                    { !loggedIn && 
-                        <li className="nav-item">
-                            <Link to="/sign-up" className="nav-link"><i className="fa far">&#xf007;</i> Sign Up</Link>
-                        </li>
-                    
-                    }
-                    { loggedIn && 
+                    { loggedIn ? 
                         <li className="nav-item">
                             <button onClick={signOut} className="btn btn-secondary">Logout</button>
+                        </li>
+                        :
+                        <li className="nav-item">
+                            <Link to="/sign-up" className="nav-link"><i className="fa far">&#xf007;</i> Sign Up</Link>
                         </li>
                     }
                 </ul>
