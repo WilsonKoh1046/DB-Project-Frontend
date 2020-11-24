@@ -11,7 +11,7 @@ const processReview = (data, reviewerID, reviewerName) => {
 
 export const postReview = async (data) => {
     const accessToken = JSON.parse(localStorage.getItem('account')).accessToken;
-    const reviewerID = JSON.parse(localStorage.getItem('account')).id;
+    const reviewerID = JSON.parse(localStorage.getItem('account')).reviewerID;
     const reviewerName = JSON.parse(localStorage.getItem('account')).username;
     data = processReview(data, reviewerID, reviewerName);
     const config = {

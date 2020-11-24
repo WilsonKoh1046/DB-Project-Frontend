@@ -17,8 +17,8 @@ export default function NewReview() {
     const submitReview = async (data) => {
         try {
             let response = await postReview(data);
-            if (response.status === 201) {
-                alert(`${response.data.Message}`);
+            if (response.status === 200) {
+                alert("New book's review added, thank you for contributing!");
                 history.push('/');
             }
         } catch(err) {
