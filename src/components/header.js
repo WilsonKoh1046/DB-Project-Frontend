@@ -28,6 +28,10 @@ export default function Header() {
     }
 
     const searchBook = async (data) => {
+        if (data.search === "") {
+            history.push({pathname: "/search-result", state: { found: false }});
+            return;
+        }
         try {
             const response = await findBookByAsin(data.search);
             if (response.status === 200) {

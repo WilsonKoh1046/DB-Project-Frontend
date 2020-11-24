@@ -8,7 +8,7 @@ export default function Login() {
         'username': '',
         'email': ''
     }
-    const { register, handleSubmit } = useForm();
+    const { register, handleSubmit, errors } = useForm();
     const [loggedIn, setLoggedIn] = useState(false);
     const [userInfo, setUserInfo] = useState(initialUserInfo);
     const history = useHistory();
@@ -54,7 +54,10 @@ export default function Login() {
                                 <div className="form-group">
                                     <lablel>Name:</lablel>
                                     <br/>
-                                    <input name="username" ref={register} />
+                                    <input name="username" ref={register({ required: {value: true, message: "Must input name"} })} />
+                                    {errors.username && errors.username.type === "required" && (
+                                        <div className="error text-danger">{errors.username.message}</div>
+                                    )}
                                 </div>
                                 {/*
                                 <div className="form-group">
@@ -66,7 +69,10 @@ export default function Login() {
                                 <div className="form-group">
                                     <label>Password:</label>
                                     <br/>
-                                    <input name="password" type="password" ref={register} />
+                                    <input name="password" type="password" ref={register({ required: {value: true, message: "Must input password"} })} />
+                                    {errors.password && errors.password.type === "required" && (
+                                        <div className="error text-danger">{errors.password.message}</div>
+                                    )}
                                 </div>
                                 <input type="submit" className="btn btn-primary" />
                             </form>

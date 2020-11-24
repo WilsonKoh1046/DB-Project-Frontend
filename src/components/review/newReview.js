@@ -4,7 +4,7 @@ import { useHistory } from 'react-router-dom';
 import { postReview } from '../../services/reviewService';
 
 export default function NewReview() {
-    const { register, handleSubmit } = useForm();
+    const { register, handleSubmit, errors } = useForm();
     const [loggedIn, setLoggedIn] = useState(false);
     const history = useHistory();
 
@@ -36,17 +36,26 @@ export default function NewReview() {
                             <div className="form-group">
                                 <lablel>asin:</lablel>
                                 <br/>
-                                <input name="asin" ref={register} />
+                                <input name="asin" ref={register({ required: {value: true, message: "Must input book's asin"}})} />
+                                {errors.asin && errors.asin.type === "required" && (
+                                    <div className="error text-danger">{errors.asin.message}</div>
+                                )}
                             </div>
                             <div className="form-group">
                                 <label>Helpful:</label>
                                 <br/>
-                                <input name="helpful" ref={register} />
+                                <input name="helpful" ref={register({ required: {value: true, message: "Must evaluate the helpfulness of the book"}})} />
+                                {errors.helpful && errors.helpful.type === "required" && (
+                                    <div className="error text-danger">{errors.helpful.message}</div>
+                                )}
                             </div>
                             <div className="form-group">
                                 <label>Review:</label>
                                 <br/>
-                                <input name="reviewText" ref={register} />
+                                <input name="reviewText" ref={register({ required: {value: true, message: "Must input review text"}})} />
+                                {errors.reviewText && errors.reviewText.type === "required" && (
+                                    <div className="error text-danger">{errors.reviewText.message}</div>
+                                )}
                             </div>
                             <div className="form-group">
                                 <label>Overall:</label>

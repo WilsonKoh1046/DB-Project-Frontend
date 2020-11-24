@@ -4,7 +4,7 @@ import { useHistory } from 'react-router-dom';
 import { createNewBook } from '../services/bookService';
 
 export default function NewBook() {
-    const { register, handleSubmit } = useForm();
+    const { register, handleSubmit, errors } = useForm();
     const [loggedIn, setLoggedIn] = useState(false);
     const history = useHistory();
 
@@ -36,22 +36,34 @@ export default function NewBook() {
                             <div className="form-group">
                                 <lablel>asin:</lablel>
                                 <br/>
-                                <input name="asin" ref={register} />
+                                <input name="asin" ref={register({ required: {value: true, message: "Must input book's asin"}})} />
+                                {errors.asin && errors.asin.type === "required" && (
+                                    <div className="error text-danger">{errors.asin.message}</div>
+                                )}
                             </div>
                             <div className="form-group">
                                 <label>Title:</label>
                                 <br/>
-                                <input name="title" ref={register} />
+                                <input name="title" ref={register({ required: {value: true, message: "Must input book's title"}})} />
+                                {errors.title && errors.title.type === "required" && (
+                                    <div className="error text-danger">{errors.title.message}</div>
+                                )}
                             </div>
                             <div className="form-group">
                                 <label>Price:</label>
                                 <br/>
-                                <input name="price" ref={register} />
+                                <input name="price" ref={register({ required: {value: true, message: "Must input book's price"}})} />
+                                {errors.price && errors.price.type === "required" && (
+                                    <div className="error text-danger">{errors.price.message}</div>
+                                )}
                             </div>
                             <div className="form-group">
                                 <label>Brand:</label>
                                 <br/>
-                                <input name="brand" ref={register} />
+                                <input name="brand" ref={register({ required: {value: true, message: "Must input book's brand"}})} />
+                                {errors.brand && errors.brand.type === "required" && (
+                                    <div className="error text-danger">{errors.brand.message}</div>
+                                )}
                             </div>
                             <div className="form-group">
                                 <label>Image (Please provide URL):</label>
@@ -61,7 +73,10 @@ export default function NewBook() {
                             <div className="form-group">
                                 <label>Description:</label>
                                 <br/>
-                                <input name="description" ref={register} />
+                                <input name="description" ref={register({ required: {value: true, message: "Must input brief description of the book"}})} />
+                                {errors.description && errors.description.type === "required" && (
+                                    <div className="error text-danger">{errors.description.message}</div>
+                                )}
                             </div>
                             <input type="submit" className="btn btn-primary" />
                         </form>
