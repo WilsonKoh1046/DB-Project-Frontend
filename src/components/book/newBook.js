@@ -23,6 +23,7 @@ export default function NewBook() {
             }
         } catch(err) {
             console.log(err);
+            alert("Adding new book failed, please try again");
         } finally {
             history.go(0);
         }

@@ -23,6 +23,7 @@ export default function NewReview() {
             }
         } catch(err) {
             console.log(err);
+            alert("Adding new review failed, please try again");
         } finally {
             history.go(0);
         }
@@ -52,7 +53,7 @@ export default function NewReview() {
                             <div className="form-group">
                                 <label>Review:</label>
                                 <br/>
-                                <input name="reviewText" ref={register({ required: {value: true, message: "Must input review text"}})} />
+                                <textarea name="reviewText" ref={register({ required: {value: true, message: "Must input review text"}})} />
                                 {errors.reviewText && errors.reviewText.type === "required" && (
                                     <div className="error text-danger">{errors.reviewText.message}</div>
                                 )}
