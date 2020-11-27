@@ -69,7 +69,10 @@ export default function NewBook() {
                             <div className="form-group">
                                 <label>Image (Please provide URL):</label>
                                 <br/>
-                                <input name="imgUrl" ref={register} />
+                                <input name="imgUrl" ref={register({maxLength: { value: 255, message: "The image url is too long" }})} />
+                                {errors.imgUrl && errors.imgUrl.type === "maxLength" && (
+                                    <div className="error text-danger">{errors.imgUrl.message}</div>
+                                )}
                             </div>
                             <div className="form-group">
                                 <label>Description:</label>
