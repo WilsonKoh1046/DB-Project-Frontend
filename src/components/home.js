@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import Pagination from 'react-js-pagination';
+import { useHistory } from 'react-router-dom';
 import Book from './book/book';
-import { getAllBooks } from '../services/bookService';
+import { getAllBooks, sortBooks } from '../services/bookService';
 import '../styles/home.scss';
 
 export default function Home() {
@@ -11,6 +12,8 @@ export default function Home() {
     const [activePage, setActivePage] = useState(1);
 
     const [itemPerPage, setItemPerPage] = useState(6);
+
+    const history = useHistory();
 
     useEffect(() => {
         (async () => {
@@ -42,16 +45,23 @@ export default function Home() {
     return (
         <div className="container-fluid home-section">
                 {allBooks.length > 0 ? 
-                    <div className="pagination-button">
-                        <Pagination
-                            activePage={activePage}
-                            itemsCountPerPage={itemPerPage}
-                            totalItemsCount={books.length}
-                            pageRangeDisplayed={2}
-                            itemClass="page-item"
-                            linkClass="page-link"
-                            onChange={handlePageChange}
-                        />
+                    <div className="container-fluid">
+                        <div className="d-flex flex row">
+                            <p className="text-dark mr-2">Sort By: </p>
+                            <p className="text-info mr-4" style={{cursor: "pointer"}} onClick={() => { setBooks(sortBooks(books, "asc")); history.push('/');}}>Reviews (Low To High)</p>
+                            <p className="text-info mr-4" style={{cursor: "pointer"}} onClick={() => { setBooks(sortBooks(books, "desc")); history.push('/');}}>Reviews (High To Low)</p>
+                        </div>
+                        <div className="pagination-button">
+                            <Pagination
+                                activePage={activePage}
+                                itemsCountPerPage={itemPerPage}
+                                totalItemsCount={books.length}
+                                pageRangeDisplayed={2}
+                                itemClass="page-item"
+                                linkClass="page-link"
+                                onChange={handlePageChange}
+                            />
+                        </div>
                     </div>
                     :
                     <div className="container-fluid">

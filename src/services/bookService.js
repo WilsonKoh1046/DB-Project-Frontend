@@ -26,3 +26,15 @@ export const findBookByAsin = async (asin) => {
         console.log(err);
     }
 }
+
+const calculateAvgReviewsScore = (reviews) => {
+    let total = 0;
+    for (let review of reviews) {
+        total += review.overall;
+    }
+    return total / reviews.length;
+}
+
+export const sortBooks = (books, order) => {
+    return order === "asc" ? books.sort((a, b) => calculateAvgReviewsScore(a.reviews) - calculateAvgReviewsScore(b.reviews)) : books.sort((a, b) => calculateAvgReviewsScore(b.reviews) - calculateAvgReviewsScore(a.reviews)) 
+}
