@@ -21,10 +21,16 @@ export default function Home() {
     useEffect(() => {
         (async () => {
             try {
-                const data = await getAllBooks();
-                if (data["message"] === "Success") {
-                    setBooks(data["data"]);
-                    setCategories(findAllCategories(data["data"]));
+                const response = await getAllBooks();
+                if (response.status === 200) {
+                    let books_with_reviews = [];
+                    for (let book of response.data) {
+                        const reviews = await getReviewsByASIN(book.asin);
+                        book.reviews = reviews.data;
+                        books_with_reviews.push(book);
+                    }
+                    setBooks(books_with_reviews);
+                    setCategories(findAllCategories(books_with_reviews));
                 }
             } catch(err) {
                 console.log(err);
@@ -52,8 +58,54 @@ export default function Home() {
                     <div className="container-fluid">
                         <div className="d-flex flex row">
                             <p className="text-dark mr-2">Sort By: </p>
-                            <p className="text-info mr-4" style={{cursor: "pointer"}} onClick={() => { setBooks(sortBooks(books, "asc")); history.push('/');}}>Reviews (Low To High)</p>
-                            <p className="text-info mr-4" style={{cursor: "pointer"}} onClick={() => { setBooks(sortBooks(books, "desc")); history.push('/');}}>Reviews (High To Low)</p>
+                            <p 
+                            className="text-info mr-4" 
+                            style={{cursor: "pointer"}} 
+                            onClick={() => { 
+                                (async () => {
+                                    try {
+                                        const response = await getAllBooks();
+                                        if (response.status === 200) {
+                                            let books_with_reviews = [];
+                                            for (let book of response.data) {
+                                                const reviews = await getReviewsByASIN(book.asin);
+                                                book.reviews = reviews.data;
+                                                books_with_reviews.push(book);
+                                            }
+                                            setBooks(sortBooks(books_with_reviews, "asc"));
+                                        }
+                                    } catch(err) {
+                                        console.log(err);
+                                    }
+                                })();
+                                }}
+                            >
+                                Reviews (Low To High)
+                            </p>
+                            <p 
+                            className="text-info mr-4" 
+                            style={{cursor: "pointer"}} 
+                            onClick={() => { 
+                                (async () => {
+                                    try {
+                                        const response = await getAllBooks();
+                                        if (response.status === 200) {
+                                            let books_with_reviews = [];
+                                            for (let book of response.data) {
+                                                const reviews = await getReviewsByASIN(book.asin);
+                                                book.reviews = reviews.data;
+                                                books_with_reviews.push(book);
+                                            }
+                                            setBooks(sortBooks(books_with_reviews, "desc"));
+                                        }
+                                    } catch(err) {
+                                        console.log(err);
+                                    }
+                                })();
+                            }}
+                            >
+                                Reviews (High To Low)
+                            </p>
                         </div>
                         <div className="d-flex flex row">
                             <p className="text-dark mr-2">Category: </p>
@@ -67,9 +119,15 @@ export default function Home() {
                                             onClick={() => {
                                                 (async () => {
                                                     try {
-                                                        const data = await getAllBooks();
-                                                        if (data["message"] === "Success" ) {
-                                                            setBooks(filterBooksByCategory(data["data"], category));
+                                                        const response = await getAllBooks();
+                                                        if (response.status === 200) {
+                                                            let books_with_reviews = [];
+                                                            for (let book of response.data) {
+                                                                const reviews = await getReviewsByASIN(book.asin);
+                                                                book.reviews = reviews.data;
+                                                                books_with_reviews.push(book);
+                                                            }
+                                                            setBooks(filterBooksByCategory(books_with_reviews, category));
                                                         }
                                                     } catch(err) {
                                                         console.log(err);

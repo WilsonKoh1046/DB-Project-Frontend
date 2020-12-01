@@ -1,8 +1,24 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import '../../styles/home.scss';
 import { Link } from 'react-router-dom';
+import { getReviewsByASIN } from '../../services/reviewService';
 
 export default function Book({detail}) {
+
+    const [reviews, setReviews] = useState([]);
+
+    useEffect(() => {
+        (async () => {
+            try {
+                const response = await getReviewsByASIN(detail.asin);
+                if (response.status === 200) {
+                    setReviews(response.data);
+                }
+            } catch(err) {
+                console.log(err);
+            }
+        })();
+    }, [])
 
     return (
         <div className="book">

@@ -1,5 +1,4 @@
 import axios from 'axios';
-import { getReviewsByASIN } from './reviewService';
 
 export const createNewBook = async (data) => {
     try {
@@ -13,18 +12,7 @@ export const createNewBook = async (data) => {
 export const getAllBooks = async () => {
     try {
          const response = await axios.get("/api/metaBooks/100");
-         if (response.status === 200) {
-            let books_with_reviews = [];
-            for (let book of response.data) {
-                let reviews = await getReviewsByASIN(book.asin);
-                if (reviews.status === 200) {
-                    book.reviews = reviews.data;
-                    books_with_reviews.push(book);
-                }
-            }
-            return {"message": "Success", "data": books_with_reviews};
-         }
-         return {"message": "Fail", "data": []};
+         return response;
     } catch(err) {
         console.log(err);
     }
