@@ -2,12 +2,14 @@ import React, { useState, useEffect } from 'react'
 import Pagination from 'react-js-pagination';
 import { useHistory } from 'react-router-dom';
 import Book from './book/book';
-import { getAllBooks, sortBooks } from '../services/bookService';
+import { getAllBooks, sortBooks, findAllCategories, filterBooksByCategory } from '../services/bookService';
 import '../styles/home.scss';
 
 export default function Home() {
 
     const [books, setBooks] = useState([]);
+
+    const [categories, setCategories] = useState({});
 
     const [activePage, setActivePage] = useState(1);
 
@@ -21,6 +23,7 @@ export default function Home() {
                 const response = await getAllBooks();
                 if (response.status === 200) {
                     setBooks(response.data);
+                    setCategories(findAllCategories(response.data));
                 }
             } catch(err) {
                 console.log(err);
@@ -50,6 +53,31 @@ export default function Home() {
                             <p className="text-dark mr-2">Sort By: </p>
                             <p className="text-info mr-4" style={{cursor: "pointer"}} onClick={() => { setBooks(sortBooks(books, "asc")); history.push('/');}}>Reviews (Low To High)</p>
                             <p className="text-info mr-4" style={{cursor: "pointer"}} onClick={() => { setBooks(sortBooks(books, "desc")); history.push('/');}}>Reviews (High To Low)</p>
+                        </div>
+                        <div className="d-flex flex row">
+                            <p className="text-dark mr-2">Category: </p>
+                            {categories && Object.keys(categories).length > 0 && (
+                                Object.keys(categories).map((category, key) => {
+                                    return <p 
+                                            className="text-info mr-4" 
+                                            style={{cursor: "pointer"}} 
+                                            key={key} 
+                                            onClick={() => {
+                                                (async () => {
+                                                    try {
+                                                        const response = await getAllBooks();
+                                                        if (response.status === 200) {
+                                                            setBooks(filterBooksByCategory(response.data, category));
+                                                        }
+                                                    } catch(err) {
+                                                        console.log(err);
+                                                    }
+                                                })();
+                                                }}>
+                                                    {category} ({categories[category]})
+                                            </p>
+                                })
+                            )}
                         </div>
                         <div className="pagination-button">
                             <Pagination

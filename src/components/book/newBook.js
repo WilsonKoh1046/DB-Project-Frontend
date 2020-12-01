@@ -17,7 +17,7 @@ export default function NewBook() {
     const submitBook = async (data) => {
         try {
             let response = await createNewBook(data);
-            if (response.status === 200) {
+            if (response.status === 201) {
                 alert("New book added to the database, thank you for contributing!");
                 history.push('/');
             }
@@ -67,19 +67,19 @@ export default function NewBook() {
                                 )}
                             </div>
                             <div className="form-group">
-                                <label>Image (Please provide URL):</label>
+                                <label>Category:</label>
                                 <br/>
-                                <input name="imgUrl" ref={register({maxLength: { value: 255, message: "The image url is too long" }})} />
-                                {errors.imgUrl && errors.imgUrl.type === "maxLength" && (
-                                    <div className="error text-danger">{errors.imgUrl.message}</div>
+                                <input name="categories" ref={register({ required: {value: true, message: "Must input book's category"}})} />
+                                {errors.categories && errors.categories.type === "required" && (
+                                    <div className="error text-danger">{errors.categories.message}</div>
                                 )}
                             </div>
                             <div className="form-group">
-                                <label>Description:</label>
+                                <label>Image (Please provide URL):</label>
                                 <br/>
-                                <textarea name="description" ref={register({ required: {value: true, message: "Must input brief description of the book"}})} />
-                                {errors.description && errors.description.type === "required" && (
-                                    <div className="error text-danger">{errors.description.message}</div>
+                                <input name="imUrl" ref={register({maxLength: { value: 255, message: "The image url is too long" }})} />
+                                {errors.imUrl && errors.imUrl.type === "maxLength" && (
+                                    <div className="error text-danger">{errors.imUrl.message}</div>
                                 )}
                             </div>
                             <input type="submit" className="btn btn-primary" />

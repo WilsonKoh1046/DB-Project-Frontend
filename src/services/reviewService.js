@@ -1,5 +1,14 @@
 import axios from 'axios';
 
+export const getReviewsByASIN = async (asin) => {
+    try {
+        const response = await axios.get(`/api/reviews/asin`, {"asin": asin});
+        return response;
+    } catch(err) {
+        console.log(err);
+    }
+}
+
 const processReview = (data, reviewerID, reviewerName) => {
     data.reviewerID = reviewerID;
     data.reviewerName = reviewerName;

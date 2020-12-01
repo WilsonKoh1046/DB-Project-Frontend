@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Link, useHistory } from 'react-router-dom'
+import { Link, useHistory, useLocation } from 'react-router-dom'
 import { useForm } from 'react-hook-form';
 import { logout } from '../services/accountService';
 import { findBookByAsin } from '../services/bookService';
@@ -10,6 +10,8 @@ export default function Header() {
     const [loggedIn, setLoggedIn] = useState(false);
     const { register, handleSubmit } = useForm();
     const history =  useHistory();
+    const location = useLocation();
+
     useEffect(() => {
         if (localStorage.getItem('account')) {
             const userData = JSON.parse(localStorage.getItem('account'));
@@ -49,10 +51,10 @@ export default function Header() {
     return (
         <div className="container-fluid header-area">
             <nav className="navbar navbar-expand navbar-light bg-light">
-                <h1><Link to="/">Books Heaven</Link></h1>
+                <h1><Link to="/" onClick={() => { if (location.pathname === '/') history.go(0)}}>Books Heaven</Link></h1>
                 <ul className="nav navbar-nav">
                     <li className="nav-item">
-                        <Link to="/" className="nav-link">Home</Link>
+                        <Link to="/" className="nav-link" onClick={() => { if (location.pathname === '/') history.go(0)}}>Home</Link>
                     </li>
                     <li className="nav-item">
                         <Link to="/new-book" className="nav-link">New Book</Link>
