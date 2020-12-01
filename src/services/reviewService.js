@@ -2,7 +2,7 @@ import axios from 'axios';
 
 export const getReviewsByASIN = async (asin) => {
     try {
-        const response = await axios.get(`/api/reviews/asin`, {"asin": asin});
+        const response = await axios.get(`/api/reviewsByAsin/?asin=${asin}`);
         return response;
     } catch(err) {
         console.log(err);

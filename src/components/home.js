@@ -3,6 +3,7 @@ import Pagination from 'react-js-pagination';
 import { useHistory } from 'react-router-dom';
 import Book from './book/book';
 import { getAllBooks, sortBooks, findAllCategories, filterBooksByCategory } from '../services/bookService';
+import { getReviewsByASIN } from '../services/reviewService';
 import '../styles/home.scss';
 
 export default function Home() {
@@ -22,7 +23,15 @@ export default function Home() {
             try {
                 const response = await getAllBooks();
                 if (response.status === 200) {
-                    setBooks(response.data);
+                    let books_with_reviews = [];
+                    for (let book of response.data) {
+                        let reviews = await getReviewsByASIN(book.asin);
+                        if (reviews.status === 200) {
+                            book.reviews = reviews.data;
+                            books_with_reviews.push(book);
+                        }
+                    }
+                    setBooks(books_with_reviews);
                     setCategories(findAllCategories(response.data));
                 }
             } catch(err) {
@@ -67,7 +76,15 @@ export default function Home() {
                                                     try {
                                                         const response = await getAllBooks();
                                                         if (response.status === 200) {
-                                                            setBooks(filterBooksByCategory(response.data, category));
+                                                            let books_with_reviews = [];
+                                                            for (let book of response.data) {
+                                                                let reviews = await getReviewsByASIN(book.asin);
+                                                                if (reviews.status === 200) {
+                                                                    book.reviews = reviews.data;
+                                                                    books_with_reviews.push(book);
+                                                                }
+                                                            }
+                                                            setBooks(filterBooksByCategory(books_with_reviews, category));
                                                         }
                                                     } catch(err) {
                                                         console.log(err);
