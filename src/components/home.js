@@ -21,18 +21,10 @@ export default function Home() {
     useEffect(() => {
         (async () => {
             try {
-                const response = await getAllBooks();
-                if (response.status === 200) {
-                    let books_with_reviews = [];
-                    for (let book of response.data) {
-                        let reviews = await getReviewsByASIN(book.asin);
-                        if (reviews.status === 200) {
-                            book.reviews = reviews.data;
-                            books_with_reviews.push(book);
-                        }
-                    }
-                    setBooks(books_with_reviews);
-                    setCategories(findAllCategories(response.data));
+                const data = await getAllBooks();
+                if (data["message"] === "Success") {
+                    setBooks(data["data"]);
+                    setCategories(findAllCategories(data["data"]));
                 }
             } catch(err) {
                 console.log(err);
@@ -65,6 +57,7 @@ export default function Home() {
                         </div>
                         <div className="d-flex flex row">
                             <p className="text-dark mr-2">Category: </p>
+                            <p className="text-info mr-4" style={{cursor: "pointer"}} onClick={() => history.go(0)}>All</p>
                             {categories && Object.keys(categories).length > 0 && (
                                 Object.keys(categories).map((category, key) => {
                                     return <p 
@@ -74,17 +67,9 @@ export default function Home() {
                                             onClick={() => {
                                                 (async () => {
                                                     try {
-                                                        const response = await getAllBooks();
-                                                        if (response.status === 200) {
-                                                            let books_with_reviews = [];
-                                                            for (let book of response.data) {
-                                                                let reviews = await getReviewsByASIN(book.asin);
-                                                                if (reviews.status === 200) {
-                                                                    book.reviews = reviews.data;
-                                                                    books_with_reviews.push(book);
-                                                                }
-                                                            }
-                                                            setBooks(filterBooksByCategory(books_with_reviews, category));
+                                                        const data = await getAllBooks();
+                                                        if (data["message"] === "Success" ) {
+                                                            setBooks(filterBooksByCategory(data["data"], category));
                                                         }
                                                     } catch(err) {
                                                         console.log(err);

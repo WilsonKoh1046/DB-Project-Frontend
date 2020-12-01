@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { Link, useHistory, useLocation } from 'react-router-dom'
 import { useForm } from 'react-hook-form';
 import { logout } from '../services/accountService';
-import { findBookByAsin } from '../services/bookService';
+import { findBooksByTitle } from '../services/bookService';
 import '../styles/header.scss';
 
 export default function Header() {
@@ -35,7 +35,7 @@ export default function Header() {
             return;
         }
         try {
-            const response = await findBookByAsin(data.search);
+            const response = await findBooksByTitle(data.search);
             if (response.status === 200) {
                 if (Object.keys(response.data).length === 0) {
                     history.push({pathname: "/search-result", state: { found: false }});
@@ -54,13 +54,13 @@ export default function Header() {
                 <h1><Link to="/" onClick={() => { if (location.pathname === '/') history.go(0)}}>Books Heaven</Link></h1>
                 <ul className="nav navbar-nav">
                     <li className="nav-item">
-                        <Link to="/" className="nav-link" onClick={() => { if (location.pathname === '/') history.go(0)}}>Home</Link>
+                        <Link to="/" className="nav-link" onClick={() => { if (location.pathname === '/') history.go(0)}}><i className="fa far">&#xf015;</i> Home</Link>
                     </li>
                     <li className="nav-item">
-                        <Link to="/new-book" className="nav-link">New Book</Link>
+                        <Link to="/new-book" className="nav-link"><i className="fa far">&#xf02d;</i> New Book</Link>
                     </li>
                     <li className="nav-item">
-                        <Link to="/new-review" className="nav-link">New Review</Link>
+                        <Link to="/new-review" className="nav-link"><i className="fa far">&#xf075;</i> New Review</Link>
                     </li>
                     <li className="nav-item">
                         <Link to="/login" className="nav-link"><i className="fa far">&#xf007;</i> {user}</Link>
@@ -77,7 +77,7 @@ export default function Header() {
                 </ul>
             </nav>
             <form onSubmit={handleSubmit(searchBook)}>
-                <input name="search" ref={register} onSubmit={handleSubmit(searchBook)} placeholder="&#xf002; Book's ASIN" className="fontAwesome search-bar" />
+                <input name="search" ref={register} onSubmit={handleSubmit(searchBook)} placeholder="&#xf002; Book's Title" className="fontAwesome search-bar" />
                 <input type="submit" style={{visibility: "hidden"}} className="submit-key" />
             </form>
         </div>
