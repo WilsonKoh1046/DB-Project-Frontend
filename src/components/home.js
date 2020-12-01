@@ -53,31 +53,17 @@ export default function Home() {
     }
 
     return (
-        <div className="container-fluid home-section">
+        <div className="container home-section">
                 {allBooks.length > 0 ? 
-                    <div className="container-fluid">
+                    <div className="container">
                         <div className="d-flex flex row">
                             <p className="text-dark mr-2">Sort By: </p>
                             <p 
                             className="text-info mr-4" 
                             style={{cursor: "pointer"}} 
-                            onClick={() => { 
-                                (async () => {
-                                    try {
-                                        const response = await getAllBooks();
-                                        if (response.status === 200) {
-                                            let books_with_reviews = [];
-                                            for (let book of response.data) {
-                                                const reviews = await getReviewsByASIN(book.asin);
-                                                book.reviews = reviews.data;
-                                                books_with_reviews.push(book);
-                                            }
-                                            setBooks(sortBooks(books_with_reviews, "asc"));
-                                        }
-                                    } catch(err) {
-                                        console.log(err);
-                                    }
-                                })();
+                            onClick={() => {
+                                setBooks(sortBooks(books, "asc"));
+                                history.push('/'); 
                                 }}
                             >
                                 Reviews (Low To High)
@@ -86,22 +72,8 @@ export default function Home() {
                             className="text-info mr-4" 
                             style={{cursor: "pointer"}} 
                             onClick={() => { 
-                                (async () => {
-                                    try {
-                                        const response = await getAllBooks();
-                                        if (response.status === 200) {
-                                            let books_with_reviews = [];
-                                            for (let book of response.data) {
-                                                const reviews = await getReviewsByASIN(book.asin);
-                                                book.reviews = reviews.data;
-                                                books_with_reviews.push(book);
-                                            }
-                                            setBooks(sortBooks(books_with_reviews, "desc"));
-                                        }
-                                    } catch(err) {
-                                        console.log(err);
-                                    }
-                                })();
+                                setBooks(sortBooks(books, "desc"));
+                                history.push('/');
                             }}
                             >
                                 Reviews (High To Low)
@@ -128,6 +100,7 @@ export default function Home() {
                                                                 books_with_reviews.push(book);
                                                             }
                                                             setBooks(filterBooksByCategory(books_with_reviews, category));
+                                                            setActivePage(1);
                                                         }
                                                     } catch(err) {
                                                         console.log(err);

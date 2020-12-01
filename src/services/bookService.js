@@ -29,7 +29,7 @@ export const findBookByAsin = async (asin) => {
 
 export const findBooksByTitle = async (title) => {
     try {
-        const response = await axios.get(`/api/metaBooks/title?title=${title}`);
+        const response = await axios.get(`/api/metaBooksSearchByTitle?title=${title}`);
         return response;
     } catch(err) {
         console.log(err);
@@ -39,6 +39,9 @@ export const findBooksByTitle = async (title) => {
 const calculateAvgReviewsScore = (reviews) => {
     if (!reviews) {
         return;
+    }
+    if (reviews.length === 0) {
+        return 0;
     }
     let total = 0;
     for (let review of reviews) {

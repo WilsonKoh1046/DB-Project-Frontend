@@ -16,7 +16,7 @@ export default function SearchResult(props) {
         }
     }
     return (
-        <div className="container-fluid">
+        <div className="container">
             <h2>Search Result:</h2>
             {props.location.state.found && props.location.state.detail.length > 0 ?
                  props.location.state.detail.map((book, key) => {

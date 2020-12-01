@@ -16,6 +16,7 @@ export default function SignUp() {
             }
         } catch(err) {
             console.log(err);
+            alert("Sign up failed, please try again");
         } finally {
             history.go(0);
         }

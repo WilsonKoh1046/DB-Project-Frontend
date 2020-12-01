@@ -3,6 +3,19 @@ import { useForm } from 'react-hook-form';
 import { signIn } from '../../services/accountService';
 import { useHistory } from 'react-router-dom';
 
+const AuthorsList = () => {
+    return (
+        <>
+            <h3>This website is made possible by: </h3>
+            <p>Rahul Bhattacharjee</p>
+            <p>Mihir Mohan</p>
+            <p>Joshua Teo</p>
+            <p>Yang Aobo</p>
+            <p>Koh Wilson</p>
+        </>
+    );
+}
+
 export default function Login() {
     const initialUserInfo = {
         'username': '',
@@ -47,6 +60,8 @@ export default function Login() {
                             <h2>My Account</h2>
                             <p>Name: {userInfo.username}</p>
                             <p>Email: {userInfo.email}</p>
+                            <br/>
+                            <AuthorsList />
                         </div>
                         :
                         <div className="container">
@@ -77,6 +92,8 @@ export default function Login() {
                                 </div>
                                 <input type="submit" className="btn btn-primary" />
                             </form>
+                            <br/>
+                            <AuthorsList />
                         </div>
             }
         </div>

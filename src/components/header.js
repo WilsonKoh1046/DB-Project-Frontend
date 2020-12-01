@@ -49,7 +49,7 @@ export default function Header() {
     }
 
     return (
-        <div className="container-fluid header-area">
+        <div className="container header-area">
             <nav className="navbar navbar-expand navbar-light bg-light">
                 <h1><Link to="/" onClick={() => { if (location.pathname === '/') history.go(0)}}>Books Heaven</Link></h1>
                 <ul className="nav navbar-nav">
