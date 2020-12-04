@@ -74,6 +74,9 @@ export default function Header() {
                             <Link to="/sign-up" className="nav-link"><i className="fa far">&#xf007;</i> Sign Up</Link>
                         </li>
                     }
+                    <li className="nav-item">
+                        <Link to="#" className="nav-link" onClick={() => alert("The analytical job is running")}><i className="fa">&#xf080;</i> Start Analyse</Link>
+                    </li>
                 </ul>
             </nav>
             <form onSubmit={handleSubmit(searchBook)}>
