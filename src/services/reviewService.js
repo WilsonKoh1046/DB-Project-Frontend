@@ -1,8 +1,9 @@
 import axios from 'axios';
+import { EXPRESS_BACKEND } from '../config/configuration';
 
 export const getReviewsByASIN = async (asin) => {
     try {
-        const response = await axios.get(`/api/reviewsByAsin/?asin=${asin}`);
+        const response = await axios.get(`${EXPRESS_BACKEND}/api/reviewsByAsin/?asin=${asin}`);
         return response;
     } catch(err) {
         console.log(err);
@@ -29,7 +30,7 @@ export const postReview = async (data) => {
         }
     }
     try {
-        let response = await axios.post('/api/reviews', data, config);
+        let response = await axios.post(`${EXPRESS_BACKEND}/api/reviews`, data, config);
         return response;
     } catch(err) {
         console.log(err);

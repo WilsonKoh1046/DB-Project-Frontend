@@ -1,6 +1,7 @@
 # DB-Project-Frontend
 
 ## Development
+Create a .env file based on sample.env inside the root directory.
 ```
 yarn install
 yarn start
