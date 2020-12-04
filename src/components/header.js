@@ -4,10 +4,29 @@ import { useForm } from 'react-hook-form';
 import { logout } from '../services/accountService';
 import { findBooksByTitle } from '../services/bookService';
 import '../styles/header.scss';
+import Modal from 'react-modal';
+import { analyticalJob } from '../services/analyticalService';
+
+const customStyles = {
+    content : {
+      top                   : '30%',
+      left                  : '50%',
+      right                 : 'auto',
+      bottom                : 'auto',
+      marginRight           : '-50%',
+      transform             : 'translate(-50%, -50%)'
+    }
+  };
+
+Modal.setAppElement('#root');
 
 export default function Header() {
     const [user, setUser] = useState('Sign In');
+    const [modalIsOpen,setIsOpen] = useState(false);
+    const [analyseButtonText, setAnalyseButtonText] = useState("Start Analyse");
     const [loggedIn, setLoggedIn] = useState(false);
+    const [modalMessage, setModalMessage] = useState('Nothing\'s going on right now');
+    const [pearsonCorrelation, setPearsonCorrelation] = useState(0);
     const { register, handleSubmit } = useForm();
     const history =  useHistory();
     const location = useLocation();
@@ -20,6 +39,27 @@ export default function Header() {
             setLoggedIn(true);
         }
     }, [])
+
+    const startAnalyticalJob = async () => {
+        setAnalyseButtonText("Performing Analytical Job...");
+        try {
+            const response = await analyticalJob();
+            if (response.status === 200) {
+                setPearsonCorrelation(response.data);
+                setModalMessage("Pearson correlation between price and average review length is :");
+            }
+        } catch(err) {
+            console.log(err);
+            setModalMessage("Something went wrong while performing the analytical job, please try again later");
+        } finally {
+            setIsOpen(true);
+            setAnalyseButtonText("Start Analyse");
+        }
+    }
+
+    const closeModal = () => {
+        setIsOpen(false);
+    }
 
     const signOut = () => {
         if (logout()) {
@@ -75,7 +115,7 @@ export default function Header() {
                         </li>
                     }
                     <li className="nav-item">
-                        <Link to="#" className="nav-link" onClick={() => alert("The analytical job is running")}><i className="fa">&#xf080;</i> Start Analyse</Link>
+                        <Link to="#" className="nav-link" onClick={startAnalyticalJob}><i className="fa">&#xf080;</i> {analyseButtonText}</Link>
                     </li>
                 </ul>
             </nav>
@@ -83,6 +123,21 @@ export default function Header() {
                 <input name="search" ref={register} onSubmit={handleSubmit(searchBook)} placeholder="&#xf002; Book's Title" className="fontAwesome search-bar" />
                 <input type="submit" style={{visibility: "hidden"}} className="submit-key" />
             </form>
+            <Modal
+                isOpen={modalIsOpen}
+                onRequestClose={closeModal}
+                style={customStyles}
+            >
+                <div className="container">
+                    <h2>{modalMessage}</h2>
+                    { pearsonCorrelation !== 0 ? 
+                        <p>{pearsonCorrelation}</p>
+                        :
+                        <></>
+                     }
+                    <button onClick={closeModal} className="btn btn-primary" style={{marginLeft: "50%"}}>Close</button>
+                </div>
+            </Modal>
         </div>
     )
 }

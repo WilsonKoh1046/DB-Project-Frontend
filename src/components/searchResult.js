@@ -18,7 +18,7 @@ export default function SearchResult(props) {
     return (
         <div className="container">
             <h2>Search Result:</h2>
-            {props.location.state.found && props.location.state.detail.length > 0 ?
+            {props.location.state && props.location.state.found && props.location.state.detail && props.location.state.detail.length > 0 ?
                  props.location.state.detail.map((book, key) => {
                      (async () => book = await getReviews(book))();
                      return <Book detail={book} key={key} />
