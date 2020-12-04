@@ -23,7 +23,11 @@ export default function Book({detail}) {
     return (
         <div className="book">
             <Link to={{pathname:"/reviews", state: {reviews: detail.reviews}}} className="book-details">
-            <img src={detail.imUrl} alt="book" width="100" height="100"/>
+             { detail.imUrl === "vdd" ? 
+                <img src="book_icon.png" alt="book" width="100" height="100"/>
+                :
+                <img src={detail.imUrl} alt="book" width="100" height="100"/>
+              }   
             <h3>{detail.title}</h3>
             <p>
                 {detail.asin}
