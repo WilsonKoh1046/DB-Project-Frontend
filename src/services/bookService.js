@@ -76,13 +76,5 @@ export const filterBooksByCategory = (books, category) => {
     if (!books) {
         return;
     }
-    let result = [];
-    for (let book of books) {
-        if (book.categories.length !== 0) {
-            if (book.categories[0][0] === category) {
-                result.push(book);
-            }
-        }
-    }
-    return result;
+    return books.filter((book) => book.categories.length !== 0 && book.categories[0][0] === category);
 }
