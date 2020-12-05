@@ -1,6 +1,19 @@
 import axios from 'axios';
 import { EXPRESS_BACKEND } from '../config/configuration';
 
+export const getAllReviews = async () => {
+    try {
+        const response = await axios.get(`${EXPRESS_BACKEND}/api/reviews`);
+        return response;
+    } catch(err) {
+        console.log(err);
+    }
+}
+
+export const filterReviewsByAsin = (reviews, asin) => {
+    return reviews.filter((review) => review.asin === asin);
+}
+
 export const getReviewsByASIN = async (asin) => {
     try {
         const response = await axios.get(`${EXPRESS_BACKEND}/api/reviewsByAsin/?asin=${asin}`);

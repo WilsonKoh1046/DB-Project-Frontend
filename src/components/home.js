@@ -9,6 +9,7 @@ import '../styles/home.scss';
 export default function Home() {
 
     const [books, setBooks] = useState([]);
+    const [booksCopy, setBooksCopy] = useState([]);
 
     const [categories, setCategories] = useState({});
 
@@ -23,6 +24,7 @@ export default function Home() {
             try {
                 const response = await getAllBooks();
                 if (response.status === 200) {
+                    setBooksCopy(response.data);
                     let books_with_reviews = [];
                     for (let book of response.data) {
                         const reviews = await getReviewsByASIN(book.asin);
@@ -90,18 +92,15 @@ export default function Home() {
                                             key={key} 
                                             onClick={() => {
                                                 (async () => {
+                                                    setBooks(filterBooksByCategory(booksCopy, category));
                                                     try {
-                                                        const response = await getAllBooks();
-                                                        if (response.status === 200) {
-                                                            let books_with_reviews = [];
-                                                            for (let book of response.data) {
-                                                                const reviews = await getReviewsByASIN(book.asin);
-                                                                book.reviews = reviews.data;
-                                                                books_with_reviews.push(book);
-                                                            }
-                                                            setBooks(filterBooksByCategory(books_with_reviews, category));
-                                                            setActivePage(1);
+                                                        let books_with_reviews = [];
+                                                        for (let book of books) {
+                                                            const reviews = await getReviewsByASIN(book.asin);
+                                                            book.reviews = reviews.data;
+                                                            books_with_reviews.push(book);
                                                         }
+                                                        setActivePage(1);
                                                     } catch(err) {
                                                         console.log(err);
                                                     }

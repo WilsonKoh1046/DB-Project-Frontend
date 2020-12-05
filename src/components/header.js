@@ -3,6 +3,7 @@ import { Link, useHistory, useLocation } from 'react-router-dom'
 import { useForm } from 'react-hook-form';
 import { logout } from '../services/accountService';
 import { findBooksByTitle } from '../services/bookService';
+import { getAllReviews, filterReviewsByAsin } from '../services/reviewService';
 import '../styles/header.scss';
 import Modal from 'react-modal';
 import { analyticalJob } from '../services/analyticalService';
@@ -27,6 +28,7 @@ export default function Header() {
     const [loggedIn, setLoggedIn] = useState(false);
     const [modalMessage, setModalMessage] = useState('Nothing\'s going on right now');
     const [pearsonCorrelation, setPearsonCorrelation] = useState(0);
+    const [allReviews, setAllReviews] = useState([]);
     const { register, handleSubmit } = useForm();
     const history =  useHistory();
     const location = useLocation();
@@ -38,7 +40,39 @@ export default function Header() {
             setUser(username);
             setLoggedIn(true);
         }
+        (async () => {
+            try {
+                const response = await getAllReviews();
+                if (response.status === 200) {
+                    setAllReviews(response.data);
+                }
+            } catch(err) {
+                console.log(err);
+            }
+        })();
     }, [])
+
+    /* Testing purpose while waiting for Flask API 
+    const testPromise = () => {
+        return new Promise((resolve, reject) => {
+            setInterval(() => {
+                resolve();
+            }, 2000);
+        })
+    }
+
+    const testModal = async () => {
+        setAnalyseButtonText("Loading...");
+        try {
+            await testPromise();
+        } catch(err) {
+            console.log(err);
+        } finally {
+            setAnalyseButtonText("Start Analyse");
+            setIsOpen(true);
+        };
+    }
+    */
 
     const startAnalyticalJob = async () => {
         setAnalyseButtonText("Performing Analytical Job...");
@@ -80,7 +114,12 @@ export default function Header() {
                 if (Object.keys(response.data).length === 0) {
                     history.push({pathname: "/search-result", state: { found: false }});
                 } else {
-                    history.push({pathname: "/search-result", state: { detail: response.data, found: true }});
+                    let books_with_reviews = [];
+                    for (let item of response.data) {
+                        item.reviews = filterReviewsByAsin(allReviews, item.asin);
+                        books_with_reviews.push(item);
+                    }
+                    history.push({pathname: "/search-result", state: { detail: books_with_reviews, found: true }});
                 }
             }
         } catch(err) {
