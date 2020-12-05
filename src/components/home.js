@@ -33,6 +33,13 @@ export default function Home() {
         })()
     }, [])
 
+    const truncateText = (text) => {
+        if (text.length > 50) {
+            return text.substring(0, 51) + '...';
+        }
+        return text;
+    }
+
     const handlePageChange = (pageNumber) => {
         setActivePage(pageNumber);
     }
@@ -90,7 +97,7 @@ export default function Home() {
                                             key={key} 
                                             value={category}
                                             >
-                                                    {category} ({categories[category]})
+                                                    {truncateText(category)} ({categories[category]})
                                             </option>
                                 })
                             )}

@@ -15,7 +15,7 @@ export default function Book({detail}) {
             <p>
                 {detail.asin}
             </p>
-            <p>Price: {detail.price} SGD</p>
+            <p>Price: {detail.price ? detail.price : 0} SGD</p>
             {/* <p>Brand: {detail.brand}</p> */}
             {/* <p>Category: {detail.categories}</p> */}
             </Link>
