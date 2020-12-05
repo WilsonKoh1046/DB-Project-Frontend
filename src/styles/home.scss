@@ -1,9 +1,6 @@
 .pagination-button {
     margin-left: 40%;
     margin-top: 2%;
-    .page-item {
-        z-index: -1;
-    }
     @media only screen and (max-width: 767px) {
         margin-left: auto;
         margin-right: auto;

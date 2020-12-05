@@ -3,7 +3,6 @@ import Pagination from 'react-js-pagination';
 import { useHistory } from 'react-router-dom';
 import Book from './book/book';
 import { getAllBooks, sortBooks, findAllCategories, filterBooksByCategory } from '../services/bookService';
-import { getReviewsByASIN } from '../services/reviewService';
 import '../styles/home.scss';
 
 export default function Home() {
@@ -25,14 +24,8 @@ export default function Home() {
                 const response = await getAllBooks();
                 if (response.status === 200) {
                     setBooksCopy(response.data);
-                    let books_with_reviews = [];
-                    for (let book of response.data) {
-                        const reviews = await getReviewsByASIN(book.asin);
-                        book.reviews = reviews.data;
-                        books_with_reviews.push(book);
-                    }
-                    setBooks(books_with_reviews);
-                    setCategories(findAllCategories(books_with_reviews));
+                    setBooks(response.data);
+                    setCategories(findAllCategories(response.data));
                 }
             } catch(err) {
                 console.log(err);
@@ -42,6 +35,11 @@ export default function Home() {
 
     const handlePageChange = (pageNumber) => {
         setActivePage(pageNumber);
+    }
+
+    const handleCategoryChange = (e) => {
+        setBooks(filterBooksByCategory(booksCopy, e.target.value));
+        setActivePage(1);
     }
 
     let end = itemPerPage * activePage;
@@ -84,32 +82,20 @@ export default function Home() {
                         <div className="d-flex flex row">
                             <p className="text-dark mr-2">Category: </p>
                             <p className="text-info mr-4" style={{cursor: "pointer"}} onClick={() => history.go(0)}>All</p>
+                            <div className="form-group">
+                            <select className="mdb-select md-form" onChange={handleCategoryChange}>
                             {categories && Object.keys(categories).length > 0 && (
                                 Object.keys(categories).map((category, key) => {
-                                    return <p 
-                                            className="text-info mr-4" 
-                                            style={{cursor: "pointer"}} 
+                                    return <option 
                                             key={key} 
-                                            onClick={() => {
-                                                (async () => {
-                                                    setBooks(filterBooksByCategory(booksCopy, category));
-                                                    try {
-                                                        let books_with_reviews = [];
-                                                        for (let book of books) {
-                                                            const reviews = await getReviewsByASIN(book.asin);
-                                                            book.reviews = reviews.data;
-                                                            books_with_reviews.push(book);
-                                                        }
-                                                        setActivePage(1);
-                                                    } catch(err) {
-                                                        console.log(err);
-                                                    }
-                                                })();
-                                                }}>
+                                            value={category}
+                                            >
                                                     {category} ({categories[category]})
-                                            </p>
+                                            </option>
                                 })
                             )}
+                            </select>
+                            </div>
                         </div>
                         <div className="pagination-button">
                             <Pagination
@@ -117,9 +103,9 @@ export default function Home() {
                                 itemsCountPerPage={itemPerPage}
                                 totalItemsCount={books.length}
                                 pageRangeDisplayed={2}
-                                itemClass="page-item"
                                 linkClass="page-link"
                                 onChange={handlePageChange}
+                                
                             />
                         </div>
                     </div>
