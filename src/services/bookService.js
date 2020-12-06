@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { EXPRESS_BACKEND } from '../config/configuration';
+import { getReviewsByASIN } from './reviewService';
 
 export const createNewBook = async (data) => {
     try {
@@ -51,8 +52,20 @@ const calculateAvgReviewsScore = (reviews) => {
     return total / reviews.length;
 }
 
-export const sortBooks = (books, order) => {
-    return order === "asc" ? books.sort((a, b) => calculateAvgReviewsScore(a.reviews) - calculateAvgReviewsScore(b.reviews)) : books.sort((a, b) => calculateAvgReviewsScore(b.reviews) - calculateAvgReviewsScore(a.reviews)) 
+export const sortBooks = async (books, order) => {
+    let books_with_reviews = [];
+    try {
+        for (let book of books) {
+            const response = await getReviewsByASIN(book.asin);
+            if (response.status === 200) {
+                book.reviews = response.data;
+                books_with_reviews.push(book);
+            }
+        }
+        return order === "asc" ? books_with_reviews.sort((a, b) => calculateAvgReviewsScore(a.reviews) - calculateAvgReviewsScore(b.reviews)) : books.sort((a, b) => calculateAvgReviewsScore(b.reviews) - calculateAvgReviewsScore(a.reviews));
+    } catch(err) {
+        console.log(err);
+    } 
 }
 
 export const findAllCategories = (books) => {

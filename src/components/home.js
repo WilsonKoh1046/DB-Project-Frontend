@@ -68,8 +68,8 @@ export default function Home() {
                             <p 
                             className="text-info mr-4" 
                             style={{cursor: "pointer"}} 
-                            onClick={() => {
-                                setBooks(sortBooks(books, "asc"));
+                            onClick={async () => {
+                                setBooks( await sortBooks(books, "asc"));
                                 history.push('/'); 
                                 }}
                             >
@@ -78,8 +78,8 @@ export default function Home() {
                             <p 
                             className="text-info mr-4" 
                             style={{cursor: "pointer"}} 
-                            onClick={() => { 
-                                setBooks(sortBooks(books, "desc"));
+                            onClick={async () => { 
+                                setBooks( await sortBooks(books, "desc"));
                                 history.push('/');
                             }}
                             >
