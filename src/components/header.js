@@ -131,7 +131,7 @@ export default function Header() {
                 <div className="container">
                     <h2>{modalMessage}</h2>
                     { pearsonCorrelation !== 0 ? 
-                        <p>{pearsonCorrelation}</p>
+                        <p style={{textAlign: "center"}}>{pearsonCorrelation}</p>
                         :
                         <></>
                      }
