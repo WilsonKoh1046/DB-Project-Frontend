@@ -89,5 +89,20 @@ export const filterBooksByCategory = (books, category) => {
     if (!books) {
         return;
     }
-    return books.filter((book) => book.categories.length !== 0 && book.categories[0][0] === category);
+    let store = [];
+    let result = [];
+    for (let book of books) {
+        let temp_cat = [];
+        for (let cat of book.categories) {
+            temp_cat = temp_cat.concat(cat);
+        }
+        book.categories = temp_cat;
+        store.push(book);
+    }
+    for (let book of store) {
+        if (book.categories.join() === category) {
+            result.push(book);
+        }
+    }
+    return result;
 }
